@@ -1,8 +1,6 @@
 import unittest
-from Armes import Weapon
-from Armes import Lance_missiles_antisurface
-from Armes import Lance_missiles_anti_air
-from Armes import Lance_torpilles
+from Armes import Weapon, Lance_torpilles, Lance_missiles_anti_air, Lance_missiles_antisurface
+
 
 class TestWeapons(unittest.TestCase):
 
@@ -11,7 +9,7 @@ class TestWeapons(unittest.TestCase):
         weapon.fire_at(50, 60, 70)  
         self.assertEqual(weapon.ammo, 9)
 
-        # Test when ammo is zero
+        # ammo is zero
         with self.assertRaises(Exception) as context:
             weapon.fire_at(50, 60, 70)
         self.assertTrue('NoAmmunitionError' in str(context.exception))
@@ -20,13 +18,13 @@ class TestLanceMissilesAntiSurface(unittest.TestCase):
 
     def test_fire_at(self):
         missile = Lance_missiles_antisurface(ammo=50, range=100)
-        missile.fire_at(150, 150, 150)  # This should print "OutOfRangeError"
+        missile.fire_at(150, 150, 150)  # "OutOfRangeError"
         self.assertEqual(missile.ammo, 49)
 
-        missile.fire_at(50, 50, 0)  # This should print "Firing at coordinates (50, 50, 0)"
+        missile.fire_at(50, 50, 0)  # In range
         self.assertEqual(missile.ammo, 48)
 
-        # Test when ammo is zero
+        # ammo is zero
         with self.assertRaises(Exception) as context:
             missile.ammo = 0
             missile.fire_at(50, 50, 0)
@@ -36,10 +34,10 @@ class TestLanceMissilesAntiAir(unittest.TestCase):
 
     def test_fire_at(self):
         missile = Lance_missiles_anti_air(ammo=40, range=20)
-        missile.fire_at(30, 30, -5)  # This should print "Firing at coordinates (30, 30, -5)"
+        missile.fire_at(30, 30, -5)  # In range
         self.assertEqual(missile.ammo, 39)
 
-        # Test when ammo is zero
+        # ammo is zero
         with self.assertRaises(Exception) as context:
             missile.ammo = 0
             missile.fire_at(30, 30, -5)
@@ -49,13 +47,13 @@ class TestLanceTorpilles(unittest.TestCase):
 
     def test_fire_at(self):
         torpedo = Lance_torpilles(ammo=24, range=40)
-        torpedo.fire_at(50, 50, 50)  # This should print "OutOfRangeError"
+        torpedo.fire_at(50, 50, 50)  #  "OutOfRangeError"
         self.assertEqual(torpedo.ammo, 23)
 
-        torpedo.fire_at(50, 50, -5)  # This should print "Firing at coordinates (50, 50, -5)"
+        torpedo.fire_at(50, 50, -5)  # In range
         self.assertEqual(torpedo.ammo, 22)
 
-        # Test when ammo is zero
+        # ammo is zero
         with self.assertRaises(Exception) as context:
             torpedo.ammo = 0
             torpedo.fire_at(50, 50, -5)
